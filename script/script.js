@@ -41,25 +41,25 @@ function searchFilms(target) {
     .then(response => showFoundFilms(response, target))
 }
 
-searchFilms = debounce(searchFilms, 300);
+searchFilms = debounce(searchFilms, 1000);
 
-searchInput.addEventListener('input', (event) => {
+searchInput.addEventListener('keyup', (event) => {
   searchFilms(event.target);
 });
 
 function showFoundFilms(response, target) {
   const val = target.value;
+  heroesBlock.textContent = '';
   response.forEach(item => {
     if (item.movies && item.movies.join(', ').toLowerCase().includes(val)) {
-      console.log(1);
-      heroesBlock.textContent = '';
+      console.log(item);
       const heroCard = `
       <div class="hero-card">
       <img src="${item.photo}" alt="hero-avatar" class="hero-avatar">
       <span class="hero-name">${item.name}</span>
       <span class="hero-live-name">${item.actors}</span>
       <span class="hero-status">${item.status}</span>
-      <span class="hero-films">${item.movies ? item.movies.join(', ') : ''}</span>
+      <span class="hero-films">${item.movies.join(', ')}</span>
       </div>`;
       heroesBlock.insertAdjacentHTML('beforeend', heroCard);
     }
